@@ -5,6 +5,7 @@ import { ArrowRight, X, Download, Trophy } from 'lucide-react'
 import { Sidebar, BottomNav } from './Navigation'
 import { AuthModal, LogoutModal } from './AuthModals'
 import { LearnGoIcon } from './LearnGoLogo'
+import AITutorScreen from '../screens/AITutorScreen'
 import LessonScreen from '../screens/LessonScreen'
 import OnboardingScreen from '../screens/OnboardingScreen'
 import { useUI } from '../context/UIContext'
@@ -91,7 +92,7 @@ function PWAInstallBanner({ onInstall, onDismiss }) {
 // Persistent chrome (sidebar, bottom nav, overlays) wrapping the App Router page.
 export default function AppShell({ children }) {
   const {
-    navigate, navTab,
+    navigate, navTab, pathname,
     isLoggedIn, showAuth, setShowAuth, showLogout, setShowLogout,
     showPwaBanner: pwaBannerVisible,
     toast, showToast, clearToast,
@@ -109,7 +110,10 @@ export default function AppShell({ children }) {
           bisa memakai flex-1 dan menempel input bar di dasar. */}
       <main className="pb-20 lg:pb-6 lg:pl-56 min-h-screen flex flex-col">
         <div className="max-w-4xl mx-auto px-4 lg:px-6 py-4 flex flex-col flex-1 min-h-0 w-full">
-          {children}
+          <div className={pathname === '/tutor' ? 'flex flex-col flex-1 min-h-0' : 'hidden'}>
+            <AITutorScreen />
+          </div>
+          {pathname !== '/tutor' && children}
         </div>
       </main>
 

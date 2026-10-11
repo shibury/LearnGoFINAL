@@ -22,18 +22,12 @@ function formatTime(iso) {
 }
 
 function initials(name) {
-  return (name || '?')
-    .split(' ')
-    .filter(Boolean)
-    .map(part => part[0])
-    .join('')
-    .slice(0, 2)
-    .toUpperCase()
+  return (name || '?').trim().split(/\s+/)[0]?.[0]?.toUpperCase() || '?'
 }
 
 export default function ChatPanel() {
   const { messages, loading, sending, error, status, sendMessage, setError } = useCommunityChat()
-  const { user, displayName } = useAuth()
+  const { user, displayName, avatarUrl } = useAuth()
   const [draft, setDraft] = useState('')
 
   const scrollRef = useRef(null)
@@ -66,7 +60,10 @@ export default function ChatPanel() {
   const disabled = loading || sending || !user
 
   return (
-    <div className="glass-card rounded-2xl border border-white/10 overflow-hidden flex flex-col" style={{ minHeight: '460px' }}>
+    <div
+      className="glass-card rounded-2xl border border-white/10 overflow-hidden flex flex-col min-h-0"
+      style={{ height: 'min(60dvh, calc(100dvh - 19rem))', minHeight: '20rem' }}
+    >
       <div className="flex items-center justify-between px-4 py-3 border-b border-white/10 flex-shrink-0">
         <div className="flex items-center gap-2.5">
           <div className="w-8 h-8 rounded-lg bg-cyan/20 flex items-center justify-center">
@@ -83,7 +80,7 @@ export default function ChatPanel() {
         </span>
       </div>
 
-      <div ref={scrollRef} onScroll={handleScroll} className="flex-1 overflow-y-auto px-4 py-3 space-y-3">
+      <div ref={scrollRef} onScroll={handleScroll} className="flex-1 min-h-0 overflow-y-auto px-4 py-3 space-y-3">
         {loading ? (
           <div className="flex items-center justify-center gap-2 py-10 text-slate">
             <Loader2 size={15} className="animate-spin" />
@@ -98,16 +95,18 @@ export default function ChatPanel() {
           messages.map(m => {
             const mine = m.user_id === user?.id
             const author = m.author ?? { name: 'Learner', avatarUrl: null }
+            const authorName = mine ? displayName : author.name
+            const authorAvatar = mine ? (author.avatarUrl || avatarUrl) : author.avatarUrl
 
             return (
               <div key={m.id} className={`flex gap-2.5 ${mine ? 'flex-row-reverse' : ''}`}>
-                {author.avatarUrl ? (
+                {authorAvatar ? (
                   // Google avatar URLs are arbitrary external hosts, so the
                   // image is passed through unoptimized instead of adding every
                   // possible domain to remotePatterns.
                   <div className="relative w-7 h-7 rounded-lg overflow-hidden flex-shrink-0 mt-0.5">
                     <Image
-                      src={author.avatarUrl}
+                      src={authorAvatar}
                       alt=""
                       fill
                       sizes="28px"
@@ -119,13 +118,13 @@ export default function ChatPanel() {
                   <div className={`w-7 h-7 rounded-lg flex items-center justify-center text-[10px] font-bold flex-shrink-0 mt-0.5 ${
                     mine ? 'bg-orange/25 text-orange' : 'bg-raised text-slate'
                   }`}>
-                    {initials(author.name)}
+                    {initials(authorName)}
                   </div>
                 )}
 
                 <div className={`min-w-0 max-w-[80%] ${mine ? 'items-end text-right' : ''}`}>
                   <p className="text-xs text-slate mb-0.5">
-                    {mine ? 'You' : author.name}
+                    {authorName}
                     <span className="text-slate/50 ml-1.5">{formatTime(m.created_at)}</span>
                   </p>
                   <div

@@ -15,6 +15,7 @@ import React from 'react'
 // vektor tidak butuh optimasi gambar sama sekali.
 
 export const BRAND_ASSETS = {
+  goMark: '/images/learngo-go-mark.png',
   logo: '/images/logo-learngo.svg',
   wordmark: '/images/text-learngo.svg',
   mascot: '/images/mascot-laerngo.svg',
@@ -23,9 +24,27 @@ export const BRAND_ASSETS = {
 // Rasio dari viewBox masing-masing berkas, dipakai supaya <img> punya ukuran
 // benar sejak render pertama dan halaman tidak melompat saat gambar selesai dimuat.
 export const BRAND_RATIO = {
+  goMark: 881 / 529,
   logo: 642 / 643,
   wordmark: 127 / 672,
   mascot: 603 / 560,
+}
+
+export function LearnGoWordmark({ className = '', markHeight = 16 }) {
+  const markWidth = Math.round(markHeight * BRAND_RATIO.goMark)
+
+  return (
+    <span className="inline-flex items-center gap-0.5 whitespace-nowrap">
+      <span className={className}>Learn</span>
+      <img
+        src={BRAND_ASSETS.goMark}
+        alt="Go"
+        width={markWidth}
+        height={markHeight}
+        style={{ width: markWidth, height: markHeight, display: 'block' }}
+      />
+    </span>
+  )
 }
 
 // Logo mark tanpa wordmark. Dipakai di header, avatar, dan favicon.

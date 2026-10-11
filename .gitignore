@@ -39,3 +39,7 @@ desktop.ini
 # Misc
 .cache/
 coverage/
+
+# Trace files
+*.trace
+*.trace.json

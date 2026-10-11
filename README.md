@@ -155,7 +155,7 @@ Publication tidak perlu disetel manual jika semua migration sudah diterapkan.
 
 ## Menerapkan Migration
 
-Ada lima migration dan harus dijalankan berurutan karena saling bergantung.
+Ada enam migration dan harus dijalankan berurutan karena saling bergantung.
 
 | Urutan | Berkas | Isi |
 | --- | --- | --- |
@@ -164,6 +164,7 @@ Ada lima migration dan harus dijalankan berurutan karena saling bergantung.
 | 3 | `0003_community_chat_realtime.sql` | RPC baca chat, Realtime untuk tabel chat |
 | 4 | `0004_realtime_gamification_and_catalog.sql` | Tabel progress dan katalog, RPC gameplay, Realtime, seed data |
 | 5 | `0005_achievements.sql` | Tabel achievement dan activity, RPC evaluasi quest, achievement, dan notification |
+| 6 | `0006_chat_account_profiles.sql` | Nama dan avatar akun untuk riwayat serta pesan realtime di Community Chat |
 
 Cara menjalankan:
 
@@ -269,11 +270,12 @@ supabase/migrations/  Skema, RLS, RPC, dan seed data
 
 ### Aset brand
 
-Ketiga aset di `public/images` adalah satu-satunya sumber gambar brand. Jangan
-menggambarnya ulang sebagai SVG di dalam komponen.
+Aset di `public/images` adalah sumber gambar brand. Jangan menggambarnya ulang
+di dalam komponen.
 
 | Berkas | Dipakai di |
 | --- | --- |
+| `learngo-go-mark.png` | Simbol Go pada wordmark di sidebar dan modal autentikasi |
 | `logo-learngo.svg` | `LearnGoIcon`, avatar header, favicon, dan ikon PWA |
 | `text-learngo.svg` | `LearnGoLogoFull` untuk layar onboarding |
 | `mascot-laerngo.svg` | `FoxMascot` di Header, Lesson, Other, Quests, Quiz, dan AuthModals |
@@ -282,11 +284,11 @@ Path aset dan rasio viewBox-nya diekspor sebagai `BRAND_ASSETS` dan
 `BRAND_RATIO` dari `components/LearnGoLogo.jsx`. Komponen lain mengimpor dari
 sana, bukan menulis path sendiri, supaya penggantian aset cukup di satu tempat.
 
-SVG dirender dengan `<img>` biasa, bukan `next/image`. `next/image` menolak SVG
-dari `public/` kecuali `dangerouslyAllowSVG` diaktifkan, sedangkan aset ini
-cuma vektor statis milik repo dan tidak butuh optimasi gambar. Aturan lint
-`no-img-element` karena itu dimatikan hanya untuk empat berkas yang memakai
-aset tersebut, lewat `eslint.config.mjs`.
+SVG dan PNG dirender dengan `<img>` biasa, bukan `next/image`. Aset brand lokal
+ini tidak membutuhkan optimasi gambar. PNG simbol Go memakai rasio intrinsiknya
+agar ukurannya proporsional di sidebar dan modal autentikasi. Aturan lint
+`no-img-element` dimatikan untuk komponen yang memakai aset tersebut, lewat
+`eslint.config.mjs`.
 
 Aset ini diekspor sebagai satu gambar per konsep, sehingga mascot hanya punya
 satu ekspresi. Kalau ekspresi per status dibutuhkan lagi, ekspor berkas terpisah

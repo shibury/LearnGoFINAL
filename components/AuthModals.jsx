@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 import { X, Eye, EyeOff, Mail, Lock, User, Loader, ArrowRight, LogOut, Key, UserPlus } from 'lucide-react'
 import { FoxMascot } from './Header'
+import { LearnGoWordmark } from './LearnGoLogo'
 import { useAuth } from '@/context/AuthContext'
 
 function AuthInput({ icon: Icon, placeholder, type = 'text', value, onChange, toggleable }) {
@@ -112,7 +113,7 @@ export function AuthModal({ onClose, onSuccess }) {
               <FoxMascot size={22} />
             </div>
             <div>
-              <span className="font-extrabold text-white text-lg">Learn<span className="text-orange">Go</span></span>
+              <LearnGoWordmark className="font-extrabold text-white text-lg" />
               <p className="text-xs text-slate leading-none mt-0.5">AI Companion for CS</p>
             </div>
           </div>

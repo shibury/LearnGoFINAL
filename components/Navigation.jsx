@@ -3,7 +3,7 @@
 import React from 'react'
 import { Home, Bot, Map, Gamepad2, MoreHorizontal, Users, ClipboardCheck } from 'lucide-react'
 import { usePathname } from 'next/navigation'
-import { LearnGoIcon } from './LearnGoLogo'
+import { LearnGoIcon, LearnGoWordmark } from './LearnGoLogo'
 
 // Bottom-nav tabs (mobile) — matches reference image exactly.
 const tabs = [
@@ -40,9 +40,7 @@ export function Sidebar({ active, onNavigate }) {
         className="flex items-center gap-2.5 px-3 pb-3 mb-1 border-b border-indigo text-left"
       >
         <LearnGoIcon size={30} />
-        <span className="text-lg font-extrabold tracking-tight text-white">
-          Learn<span style={{ color: '#FF7A00' }}>Go</span>
-        </span>
+        <LearnGoWordmark className="text-lg font-extrabold tracking-tight text-white" />
       </button>
 
       {sidebarEntries.map(({ id, label, Icon }) => {
